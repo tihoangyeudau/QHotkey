@@ -128,14 +128,14 @@ bool QHotkeyPrivateMac::checkApplicationType()
 		return false;
 	}
 
-	qDebug() << "QHotkey: GUI application detected - CGEventTap should work properly";
+	// qDebug() << "QHotkey: GUI application detected - CGEventTap should work properly";
 	return true;
 }
 
 void QHotkeyPrivateMac::setupEventTap()
 {
 	if (eventTap != nullptr) {
-		qDebug() << "QHotkey: Event tap already set up";
+		// qDebug() << "QHotkey: Event tap already set up";
 		return; // Already set up
 	}
 
@@ -145,11 +145,11 @@ void QHotkeyPrivateMac::setupEventTap()
 		return;
 	}
 
-	qDebug() << "QHotkey: Setting up CGEventTap...";
+	// qDebug() << "QHotkey: Setting up CGEventTap...";
 
 	// Create event tap for key down and key up events
 	CGEventMask eventMask = (1 << kCGEventKeyDown) | (1 << kCGEventKeyUp) | (1 << kCGEventFlagsChanged);
-	qDebug() << "QHotkey: Event mask:" << eventMask;
+	// qDebug() << "QHotkey: Event mask:" << eventMask;
 
 	eventTap = CGEventTapCreate(
 		kCGSessionEventTap,
@@ -167,7 +167,7 @@ void QHotkeyPrivateMac::setupEventTap()
 		return;
 	}
 
-	qDebug() << "QHotkey: Event tap created successfully";
+	// qDebug() << "QHotkey: Event tap created successfully";
 
 	// Create run loop source and add to current run loop
 	runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventTap, 0);
@@ -176,12 +176,12 @@ void QHotkeyPrivateMac::setupEventTap()
 		return;
 	}
 
-	qDebug() << "QHotkey: Adding to run loop...";
+	// qDebug() << "QHotkey: Adding to run loop...";
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopCommonModes);
 
 	// Enable the event tap
 	CGEventTapEnable(eventTap, true);
-	qDebug() << "QHotkey: Event tap enabled and ready";
+	// qDebug() << "QHotkey: Event tap enabled and ready";
 }
 
 void QHotkeyPrivateMac::cleanupEventTap()
@@ -212,8 +212,8 @@ CGEventRef QHotkeyPrivateMac::eventTapCallback(CGEventTapProxy proxy, CGEventTyp
 	if (type == kCGEventKeyDown || type == kCGEventKeyUp) {
 		CGKeyCode keyCode = (CGKeyCode)CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode);
 		CGEventFlags flags = CGEventGetFlags(event);
-		qDebug() << "Key event:" << (type == kCGEventKeyDown ? "DOWN" : "UP")
-		         << "keyCode:" << keyCode << "flags:" << flags;
+		// qDebug() << "Key event:" << (type == kCGEventKeyDown ? "DOWN" : "UP")
+		//          << "keyCode:" << keyCode << "flags:" << flags;
 	}
 
 	// Handle key events
